@@ -16,7 +16,7 @@ export default function CreateOrder() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/admin/zones')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/zones`)
       .then(res => res.json())
       .then(data => {
         setZones(data);
@@ -26,7 +26,7 @@ export default function CreateOrder() {
       })
       .catch(err => console.error(err));
       
-    fetch('http://localhost:5000/api/admin/points')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/points`)
       .then(res => res.json())
       .then(data => setAllPoints(data))
       .catch(err => console.error(err));
@@ -40,7 +40,7 @@ export default function CreateOrder() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/orders', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, customer_id: user.user_id })

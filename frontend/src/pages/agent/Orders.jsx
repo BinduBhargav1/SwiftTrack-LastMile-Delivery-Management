@@ -17,7 +17,7 @@ export default function Orders() {
   }, [navigate, user]);
 
   const fetchOrders = () => {
-    fetch(`http://localhost:5000/api/orders?agent_id=${user.user_id}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders?agent_id=${user.user_id}`)
       .then(res => res.json())
       .then(data => setOrders(data))
       .catch(err => console.error(err));
@@ -25,7 +25,7 @@ export default function Orders() {
 
   const updateStatus = async (orderId, status) => {
     try {
-      await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, changed_by: user.user_id })

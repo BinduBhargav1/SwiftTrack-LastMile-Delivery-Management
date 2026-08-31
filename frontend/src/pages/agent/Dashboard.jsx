@@ -12,12 +12,12 @@ export default function Dashboard() {
       navigate('/login');
       return;
     }
-    fetch(`http://localhost:5000/api/orders?agent_id=${user.user_id}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders?agent_id=${user.user_id}`)
       .then(res => res.json())
       .then(data => setOrders(data))
       .catch(err => console.error(err));
 
-    fetch(`http://localhost:5000/api/agents/${user.user_id}/availability`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/agents/${user.user_id}/availability`)
       .then(res => res.json())
       .then(data => setIsAvailable(data.available))
       .catch(err => console.error(err));
@@ -27,7 +27,7 @@ export default function Dashboard() {
     const newState = !isAvailable;
     setIsAvailable(newState);
     try {
-      await fetch(`http://localhost:5000/api/agents/${user.user_id}/availability`, {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/agents/${user.user_id}/availability`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ available: newState })

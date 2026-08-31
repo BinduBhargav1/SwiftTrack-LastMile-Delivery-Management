@@ -12,7 +12,6 @@ export default function Sidebar({ role, onLogout }) {
 
   return (
     <div className="sidebar">
-      <h2 className="mb-4">SwiftTrack</h2>
       {role === 'customer' && (
         <ul style={{ listStyle: 'none' }}>
           <li className="mb-2"><Link to="/customer/dashboard">Dashboard</Link></li>

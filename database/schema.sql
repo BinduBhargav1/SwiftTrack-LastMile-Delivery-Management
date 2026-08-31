@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS lastmile_delivery;
 USE lastmile_delivery;
 
 SET FOREIGN_KEY_CHECKS = 0;

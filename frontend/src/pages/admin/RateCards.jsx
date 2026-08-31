@@ -6,11 +6,11 @@ export default function RateCards() {
   const [formData, setFormData] = useState({ from_zone: '', to_zone: '', order_type: 'B2B', rate_per_kg: '', cod_surcharge: '0' });
 
   const fetchData = () => {
-    fetch('http://localhost:5000/api/admin/rates')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/rates`)
       .then(res => res.json())
       .then(data => setRates(data));
       
-    fetch('http://localhost:5000/api/admin/zones')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/zones`)
       .then(res => res.json())
       .then(data => setZones(data));
   };
@@ -21,7 +21,7 @@ export default function RateCards() {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:5000/api/admin/rates', {
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/rates`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)

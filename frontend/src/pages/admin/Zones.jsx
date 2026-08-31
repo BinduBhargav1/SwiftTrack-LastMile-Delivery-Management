@@ -5,7 +5,7 @@ export default function Zones() {
   const [newZone, setNewZone] = useState('');
 
   const fetchZones = () => {
-    fetch('http://localhost:5000/api/admin/zones')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/zones`)
       .then(res => res.json())
       .then(data => setZones(data));
   };
@@ -17,7 +17,7 @@ export default function Zones() {
   const handleCreate = async (e) => {
     e.preventDefault();
     if (!newZone) return;
-    await fetch('http://localhost:5000/api/admin/zones', {
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/zones`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ zone_name: newZone })

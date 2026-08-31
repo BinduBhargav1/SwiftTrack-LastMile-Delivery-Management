@@ -14,7 +14,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, phone, password, role })
@@ -36,38 +36,38 @@ export default function Register() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '4rem auto', padding: '2rem', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <h2 className="mb-4">Register</h2>
-      {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
-      {success && <div style={{ color: 'green', marginBottom: '1rem' }}>{success}</div>}
+    <div className="card" style={{ maxWidth: '450px', margin: '4rem auto' }}>
+      <h2 className="mb-4 text-center">Register</h2>
+      {error && <div style={{ color: 'var(--status-failed)', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
+      {success && <div style={{ color: 'var(--status-delivered)', marginBottom: '1rem', textAlign: 'center' }}>{success}</div>}
       <form onSubmit={handleRegister}>
-        <div className="mb-4">
-          <label className="mb-2" style={{ display: 'block' }}>Name</label>
-          <input type="text" style={{ width: '100%', padding: '0.5rem' }} value={name} onChange={e => setName(e.target.value)} required />
+        <div className="form-group">
+          <label>Name</label>
+          <input type="text" className="form-control" value={name} onChange={e => setName(e.target.value)} required />
         </div>
-        <div className="mb-4">
-          <label className="mb-2" style={{ display: 'block' }}>Email</label>
-          <input type="email" style={{ width: '100%', padding: '0.5rem' }} value={email} onChange={e => setEmail(e.target.value)} required />
+        <div className="form-group">
+          <label>Email</label>
+          <input type="email" className="form-control" value={email} onChange={e => setEmail(e.target.value)} required />
         </div>
-        <div className="mb-4">
-          <label className="mb-2" style={{ display: 'block' }}>Phone</label>
-          <input type="text" style={{ width: '100%', padding: '0.5rem' }} value={phone} onChange={e => setPhone(e.target.value)} required />
+        <div className="form-group">
+          <label>Phone</label>
+          <input type="text" className="form-control" value={phone} onChange={e => setPhone(e.target.value)} required />
         </div>
-        <div className="mb-4">
-          <label className="mb-2" style={{ display: 'block' }}>Password</label>
-          <input type="password" style={{ width: '100%', padding: '0.5rem' }} value={password} onChange={e => setPassword(e.target.value)} required />
+        <div className="form-group">
+          <label>Password</label>
+          <input type="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} required />
         </div>
-        <div className="mb-4">
-          <label className="mb-2" style={{ display: 'block' }}>Register As</label>
-          <select style={{ width: '100%', padding: '0.5rem' }} value={role} onChange={e => setRole(e.target.value)}>
-            <option value="customer">Customer</option>
-            <option value="agent">Delivery Agent</option>
+        <div className="form-group">
+          <label>Register As</label>
+          <select className="form-control" value={role} onChange={e => setRole(e.target.value)} style={{ appearance: 'none' }}>
+            <option value="customer" style={{ color: '#000' }}>Customer</option>
+            <option value="agent" style={{ color: '#000' }}>Delivery Agent</option>
           </select>
         </div>
-        <button type="submit" className="btn" style={{ width: '100%' }}>Register</button>
+        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>Register</button>
       </form>
-      <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-        Already have an account? <Link to="/login">Login</Link>
+      <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
+        <span className="text-muted">Already have an account?</span> <Link to="/login">Login</Link>
       </div>
     </div>
   );

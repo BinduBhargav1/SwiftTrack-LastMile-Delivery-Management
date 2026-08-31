@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Home from './pages/Home';
 
 import CustomerDashboard from './pages/customer/Dashboard';
 import CreateOrder from './pages/customer/CreateOrder';
@@ -23,6 +24,7 @@ import AdminPoints from './pages/admin/Points';
 
 function App() {
   const [role, setRole] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -38,6 +40,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('user');
     setRole(null);
+    navigate('/');
   };
 
   const location = useLocation();
@@ -52,7 +55,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/register" element={<Register onLogin={handleLogin} />} />
-            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/" element={<Home />} />
             
             {/* Customer */}
             <Route path="/customer/dashboard" element={<CustomerDashboard />} />

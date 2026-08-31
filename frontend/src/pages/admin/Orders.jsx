@@ -6,11 +6,11 @@ export default function Orders() {
   const [selectedAgents, setSelectedAgents] = useState({});
 
   const fetchData = () => {
-    fetch('http://localhost:5000/api/orders')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders`)
       .then(res => res.json())
       .then(data => setOrders(data));
       
-    fetch('http://localhost:5000/api/admin/agents')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/agents`)
       .then(res => res.json())
       .then(data => {
         const availableAgents = data.filter(a => a.available === 1);
@@ -26,7 +26,7 @@ export default function Orders() {
     const agentId = selectedAgents[orderId];
     if (!agentId) return alert('Select an agent first');
     
-    fetch('http://localhost:5000/api/agents/assign', {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/agents/assign`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ order_id: orderId, agent_id: agentId })
@@ -78,7 +78,7 @@ export default function Orders() {
                   )}
                   {o.status === 'Failed' && (
                     <button className="btn" style={{ padding: '0.25rem 0.5rem', fontSize: '0.8rem' }} onClick={() => {
-                      fetch(`http://localhost:5000/api/orders/${o.order_id}/reschedule`, {
+                      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${o.order_id}/reschedule`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ reschedule_date: new Date().toISOString() })

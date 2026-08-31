@@ -6,11 +6,11 @@ export default function Points() {
   const [formData, setFormData] = useState({ zone_id: '', point_name: '' });
 
   const fetchData = () => {
-    fetch('http://localhost:5000/api/admin/points')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/points`)
       .then(res => res.json())
       .then(data => setPoints(data));
       
-    fetch('http://localhost:5000/api/admin/zones')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/zones`)
       .then(res => res.json())
       .then(data => setZones(data));
   };
@@ -21,7 +21,7 @@ export default function Points() {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:5000/api/admin/points', {
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/points`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)

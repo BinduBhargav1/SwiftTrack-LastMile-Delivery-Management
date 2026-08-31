@@ -11,7 +11,7 @@ export default function Dashboard() {
       navigate('/login');
       return;
     }
-    fetch(`http://localhost:5000/api/orders?customer_id=${user.user_id}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders?customer_id=${user.user_id}`)
       .then(res => res.json())
       .then(data => setOrders(data))
       .catch(err => console.error(err));

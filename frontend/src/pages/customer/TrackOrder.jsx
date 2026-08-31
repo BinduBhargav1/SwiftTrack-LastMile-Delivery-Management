@@ -8,12 +8,12 @@ export default function TrackOrder() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/orders/${id}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${id}`)
       .then(res => res.json())
       .then(data => setOrder(data))
       .catch(err => console.error(err));
 
-    fetch(`http://localhost:5000/api/tracking/${id}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/tracking/${id}`)
       .then(res => res.json())
       .then(data => setHistory(data))
       .catch(err => console.error(err));
@@ -33,7 +33,7 @@ export default function TrackOrder() {
         <p><strong>To:</strong> {order.drop_address} ({order.drop_zone_name})</p>
         <p><strong>Charge:</strong> ₹{order.delivery_charge} ({order.payment_type})</p>
         {order.agent_name && (
-          <div style={{ marginTop: '1rem', padding: '1rem', background: '#f8f9fa', borderRadius: '8px' }}>
+          <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '8px' }}>
             <h4 style={{ margin: '0 0 0.5rem 0' }}>Delivery Agent</h4>
             <p style={{ margin: 0 }}><strong>Name:</strong> {order.agent_name}</p>
             <p style={{ margin: 0 }}><strong>Phone:</strong> {order.agent_phone}</p>

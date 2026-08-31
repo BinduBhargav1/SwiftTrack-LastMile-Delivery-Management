@@ -8,15 +8,15 @@ export default function Agents() {
   const [approvalZones, setApprovalZones] = useState({});
 
   const fetchData = () => {
-    fetch('http://localhost:5000/api/admin/agents')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/agents`)
       .then(res => res.json())
       .then(data => setAgents(data));
       
-    fetch('http://localhost:5000/api/admin/agents/pending')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/agents/pending`)
       .then(res => res.json())
       .then(data => setPendingAgents(data));
       
-    fetch('http://localhost:5000/api/admin/zones')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/zones`)
       .then(res => res.json())
       .then(data => setZones(data));
   };
@@ -27,7 +27,7 @@ export default function Agents() {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:5000/api/admin/agents', {
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/agents`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
@@ -39,7 +39,7 @@ export default function Agents() {
   const handleApprove = async (userId) => {
     const zoneId = approvalZones[userId];
     if (!zoneId) return alert('Please select a zone to assign');
-    await fetch('http://localhost:5000/api/admin/agents/approve', {
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/agents/approve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: userId, zone_id: zoneId })
@@ -49,13 +49,13 @@ export default function Agents() {
 
   const handleReject = async (userId) => {
     if (!confirm('Are you sure you want to reject this registration?')) return;
-    await fetch(`http://localhost:5000/api/admin/agents/reject/${userId}`, { method: 'DELETE' });
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/agents/reject/${userId}`, { method: 'DELETE' });
     fetchData();
   };
 
   const handleDelete = async (agentId) => {
     if (!confirm('Are you sure you want to delete this agent?')) return;
-    const res = await fetch(`http://localhost:5000/api/admin/agents/${agentId}`, { method: 'DELETE' });
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/agents/${agentId}`, { method: 'DELETE' });
     const data = await res.json();
     if (!res.ok) alert(data.error);
     fetchData();

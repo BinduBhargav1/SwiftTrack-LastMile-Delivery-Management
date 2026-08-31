@@ -7,7 +7,7 @@ export default function Orders() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   const fetchOrders = () => {
-    fetch(`http://localhost:5000/api/orders?customer_id=${user.user_id}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders?customer_id=${user.user_id}`)
       .then(res => res.json())
       .then(data => setOrders(data))
       .catch(err => console.error(err));
@@ -24,7 +24,7 @@ export default function Orders() {
   const handleCancel = async (orderId) => {
     if (!window.confirm('Are you sure you want to cancel this order?')) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -40,21 +40,31 @@ export default function Orders() {
 
   const getStatusSteps = (currentStatus) => {
     const sequence = ['Order Placed', 'Assigned', 'Picked Up', 'Transit', 'Delivered'];
-    if (currentStatus === 'Failed') return <span style={{ color: 'red', fontWeight: 'bold' }}>Failed</span>;
-    if (currentStatus === 'Rescheduled') return <span style={{ color: 'orange', fontWeight: 'bold' }}>Rescheduled</span>;
-    if (currentStatus === 'Cancelled') return <span style={{ color: 'gray', fontWeight: 'bold' }}>Cancelled</span>;
+    
+    const badge = <span className={`status-badge status-${currentStatus.toLowerCase().replace(' ', '-')}`}>{currentStatus}</span>;
+
+    if (['Failed', 'Rescheduled', 'Cancelled'].includes(currentStatus)) {
+      return badge;
+    }
     
     const currentIndex = sequence.indexOf(currentStatus);
     return (
-      <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-        {sequence.map((step, idx) => (
-          <div key={step} title={step} style={{
-            width: '12px', height: '12px', borderRadius: '50%',
-            backgroundColor: idx <= currentIndex ? 'var(--primary-color)' : '#eee',
-            border: idx === currentIndex ? '2px solid #000' : 'none'
-          }}></div>
-        ))}
-        <span style={{ marginLeft: '8px', fontSize: '0.85rem' }}>{currentStatus}</span>
+      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          {sequence.map((step, idx) => {
+            const isCompleted = idx <= currentIndex;
+            const isCurrent = idx === currentIndex;
+            return (
+              <div key={step} title={step} style={{
+                width: '10px', height: '10px', borderRadius: '50%',
+                backgroundColor: isCompleted ? 'var(--primary)' : 'rgba(255,255,255,0.1)',
+                boxShadow: isCurrent ? '0 0 5px var(--primary)' : 'none',
+                transition: 'all 0.3s ease'
+              }}></div>
+            );
+          })}
+        </div>
+        <div style={{ marginLeft: '6px' }}>{badge}</div>
       </div>
     );
   };

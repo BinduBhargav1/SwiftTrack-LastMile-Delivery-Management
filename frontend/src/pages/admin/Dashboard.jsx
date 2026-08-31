@@ -12,7 +12,7 @@ export default function Dashboard() {
       return;
     }
     
-    fetch('http://localhost:5000/api/admin/dashboard')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/dashboard`)
       .then(res => res.json())
       .then(data => setStats(data));
   }, [navigate, user]);
